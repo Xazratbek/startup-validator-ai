@@ -1,0 +1,1 @@
+export function RiskFlagList({ risks }: { risks:string[] }) { return <div className="card"><h3>Risk Flags</h3><div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{risks?.map(r => <span className="badge" key={r}>{r}</span>)}</div></div>; }

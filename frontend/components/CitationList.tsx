@@ -1,0 +1,1 @@
+export function CitationList({ items }: { items:any[] }) { return <div className="card"><h3>Citations</h3><div className="stack">{items?.map(item=><div key={item.id}><a href={item.source?.url}>{item.title}</a><div className="muted">{JSON.stringify(item.citation_json)}</div></div>)}</div></div>; }

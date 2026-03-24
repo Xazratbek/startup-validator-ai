@@ -1,0 +1,2 @@
+import { AppSidebar } from '@/components/AppSidebar';
+export default function NewProject(){return <div><AppSidebar /><main className="main stack"><h1>New Project</h1><div className="card stack"><input className="input" placeholder="Project title"/><input className="input" placeholder="One-line idea"/><textarea rows={6} placeholder="Describe the startup idea in natural language"/><button className="btn">Create project via API</button></div></main></div>}
