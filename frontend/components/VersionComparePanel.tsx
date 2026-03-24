@@ -1,0 +1,1 @@
+export function VersionComparePanel({ history }: { history:any[] }) { return <div className="card stack"><h3>History</h3>{history?.map(entry=><div key={entry.version} className="card"><strong>Version {entry.version}</strong><div className="muted">{entry.created_at}</div><p>{entry.summary}</p></div>)}</div>; }

@@ -1,0 +1,1 @@
+export function CompetitorGrid({ competitors }: { competitors:any[] }) { return <div className="card"><h3>Competitors</h3><div className="grid">{competitors?.map(c=><div key={c.id} className="card"><strong>{c.name}</strong><p className="muted">{c.positioning}</p><p>{c.pricing_summary}</p></div>)}</div></div>; }

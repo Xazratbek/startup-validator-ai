@@ -1,0 +1,2 @@
+import { DecisionBadge } from './DecisionBadge';
+export function ProjectHeader({ project }: { project: any }) { return <div className="card stack"><div style={{display:'flex',justifyContent:'space-between'}}><div><h1>{project.title}</h1><p className="muted">{project.idea_one_liner}</p></div><DecisionBadge decision={project.current_decision} /></div><div className="muted">Status: {project.status}</div></div>; }

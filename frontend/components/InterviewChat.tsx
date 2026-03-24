@@ -1,0 +1,1 @@
+export function InterviewChat({ session }: { session:any }) { return <div className="card stack"><h3>Interview History</h3>{session?.messages?.map((m:any)=><div key={m.id} className="card"><div className="muted">{m.role} · {m.phase}</div><div>{m.content}</div></div>) || <p className="muted">No interview started yet.</p>}</div>; }

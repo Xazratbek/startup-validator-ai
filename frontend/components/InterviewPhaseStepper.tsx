@@ -1,0 +1,2 @@
+const phases = ['CLARIFY','ICP','PAIN','ALTERNATIVES','MONETIZATION','ACQUISITION','EDGE','REVIEW'];
+export function InterviewPhaseStepper({ current }: { current?: string }) { return <div className="card"><h3>Interview Progress</h3><div style={{display:'flex',gap:8,flexWrap:'wrap'}}>{phases.map(phase => <span key={phase} className="badge" style={{background: current===phase ? '#2563eb' : '#1e293b'}}>{phase}</span>)}</div></div>; }
