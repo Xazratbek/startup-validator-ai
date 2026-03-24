@@ -8,6 +8,8 @@ from apps.projects.models import Project
 from apps.recommendations.services import RecommendationEngine
 from apps.research.models import ResearchRun
 from apps.scoring.services import ScoringEngine
+from apps.accounts.models import TelegramAuthSession
+
 
 @pytest.mark.django_db
 def test_project_lifecycle():
@@ -24,6 +26,7 @@ def test_project_lifecycle():
     reply = client.post(f'/api/projects/{pid}/interview/reply', {'content': 'B2B founders at 10-50 person SaaS teams'}, format='json')
     assert reply.status_code == 200
     assert Project.objects.get(id=pid).snapshots.count() >= 1
+
 
 @pytest.mark.django_db
 def test_scoring_recommendation_and_artifacts_are_database_integrated():
@@ -51,3 +54,39 @@ def test_scoring_recommendation_and_artifacts_are_database_integrated():
     assert score.total_score > 0
     assert recommendation.decision in {'BUILD_NOW', 'RUN_VALIDATION_FIRST', 'NARROW_NICHE', 'PIVOT', 'KILL'}
     assert len(artifacts) == 8
+
+
+@pytest.mark.django_db
+def test_telegram_auth_flow_registers_and_verifies_with_6_digit_code():
+    client = APIClient()
+    start = client.post('/api/auth/telegram/start', {'language': 'uz'}, format='json')
+    assert start.status_code == 200
+    token = start.data['session_token']
+
+    client.post('/api/auth/telegram/webhook', {
+        'update_id': 1,
+        'message': {
+            'text': f'/start auth_{token}',
+            'from': {'id': 778899, 'username': 'newuser', 'first_name': 'Ali'},
+        },
+    }, format='json')
+    client.post('/api/auth/telegram/webhook', {
+        'update_id': 2,
+        'message': {
+            'text': 'Ali Valiyev',
+            'from': {'id': 778899, 'username': 'newuser', 'first_name': 'Ali'},
+        },
+    }, format='json')
+    client.post('/api/auth/telegram/webhook', {
+        'update_id': 3,
+        'message': {
+            'text': '+998901112233',
+            'from': {'id': 778899, 'username': 'newuser', 'first_name': 'Ali'},
+        },
+    }, format='json')
+
+    session = TelegramAuthSession.objects.get(session_token=token)
+    assert session.code
+    verify = client.post('/api/auth/telegram/verify', {'session_token': token, 'code': session.code}, format='json')
+    assert verify.status_code == 200
+    assert 'access' in verify.data
