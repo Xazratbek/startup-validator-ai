@@ -1,0 +1,1 @@
+export function ArtifactTabs({ artifacts }: { artifacts:any[] }) { return <div className="card stack"><h3>Action Plan</h3>{artifacts?.map(a=><div key={a.id} className="card"><strong>{a.title}</strong><p>{a.content}</p></div>)}</div>; }

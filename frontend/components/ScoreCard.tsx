@@ -1,0 +1,1 @@
+export function ScoreCard({ title, score, explanation }: { title:string; score:number; explanation:string }) { return <div className="card"><strong>{title}</strong><div style={{fontSize:28,margin:'8px 0'}}>{score}/10</div><p className="muted">{explanation}</p></div>; }
